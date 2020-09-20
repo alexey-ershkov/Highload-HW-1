@@ -1,4 +1,6 @@
 import datetime
+from time import mktime
+from wsgiref.handlers import format_date_time
 
 
 def set_raw_code_status(method, code):
@@ -17,7 +19,7 @@ class Response:
         self.Status = status
         self.ReqMethod = method
         self.Server = 'alersh'
-        self.Date = datetime.datetime.now()
+        self.Date = format_date_time(mktime(datetime.datetime.now().timetuple()))
 
         if protocol == 'HTTP/1.1':
             self.Connection = 'keep-alive'

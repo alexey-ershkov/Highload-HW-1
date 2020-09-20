@@ -1,21 +1,22 @@
-import models
+import logging
+
+from ConnectionPool import ConnectionPool
 from Server import Server
+
+logging.basicConfig(level=logging.DEBUG)
 
 HOST = 'localhost'
 PORT = 3000
 
 
-def run():
+def init():
     server = Server(HOST, PORT)
 
-    while True:
-        req = models.Request(server.get_request())
-        print(req)
-        resp = models.Response(req.Protocol, req.Method, 200)
-        print(resp)
-        server.send_response(resp)
-        server.close_conn()
+    try:
+        ConnectionPool(server)
+    except KeyboardInterrupt:
+        logging.info("Shutting down")
 
 
-if __name__ == '__main__':
-    run()
+if __name__ == "__main__":
+    init()
