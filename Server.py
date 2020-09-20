@@ -27,18 +27,18 @@ BUFF_SIZE = 1024
 
 class Server:
     def __init__(self, hostname, port):
-        self._logger = logging.getLogger("server")
-        self._hostname = hostname
-        self._port = port
-        self._socket = None
+        self.logger = logging.getLogger("server")
+        self.hostname = hostname
+        self.port = port
+        self.socket = None
 
     def start(self, connection_pool):
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.bind((self._hostname, self._port))
-        self._socket.listen()
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.bind((self.hostname, self.port))
+        self.socket.listen()
 
         while True:
-            self._logger.debug("Waiting connection")
-            conn, address = self._socket.accept()
-            self._logger.debug("Got connection and Send it to Queue")
+            self.logger.debug("Waiting connection")
+            conn, address = self.socket.accept()
+            self.logger.debug("Got connection and Send it to Queue")
             connection_pool.put((conn, address), False)
