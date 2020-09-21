@@ -5,9 +5,10 @@ from Server import Server
 
 logging.basicConfig(level=logging.DEBUG)
 
+# TODO Config file
 HOST = 'localhost'
 PORT = 3000
-ROOT_DIR = '/Users/farcoad/Desktop'
+ROOT_DIR = '/Users/farcoad/Desktop/http-test-suite'
 
 
 def init():
