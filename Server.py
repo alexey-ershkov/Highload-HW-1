@@ -13,6 +13,7 @@ class Server:
 
     def start(self, connection_pool):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind((self.hostname, self.port))
         self.socket.listen()
 

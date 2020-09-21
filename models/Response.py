@@ -26,18 +26,19 @@ class Response:
         else:
             self.Connection = 'close'
 
-        if content_type:
-            self.ContentType = content_type
-            self.ContentLength = content_length
+        self.ContentType = content_type
+        self.ContentLength = content_length
 
     def __str__(self):
-        if not self.ContentLength:
+        if not self.ContentType:
             return 'Status: {0}\n' \
                    'Date: {1}\n' \
                    'Connection: {2}\n' \
+                   'Content-Length: {3}\n' \
                 .format(self.Status,
                         self.Date,
                         self.Connection,
+                        self.ContentLength
                         )
         else:
             return 'Status: {0}\n' \
@@ -53,16 +54,18 @@ class Response:
                         )
 
     def get_raw_headers(self):
-        if not self.ContentLength:
+        if not self.ContentType:
             raw_headers = '{0} {1}\r\n' \
                           'Connection: {2}\r\n' \
                           'Date: {3}\r\n' \
                           'Server: {4}\r\n' \
+                          'Content-Length: {5}\r\n' \
                 .format(self.Protocol,
                         set_raw_code_status(self.ReqMethod, self.Status),
                         self.Connection,
                         self.Date,
                         self.Server,
+                        self.ContentLength
                         )
         else:
             raw_headers = '{0} {1}\r\n' \
@@ -80,4 +83,3 @@ class Response:
                         self.ContentLength
                         )
         return raw_headers.encode()
-
