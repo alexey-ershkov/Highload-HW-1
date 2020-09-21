@@ -8,9 +8,10 @@ from handlers import handle_request
 
 
 class ConnectionPool:
-    def __init__(self, server):
+    def __init__(self, server, root_dir):
         self._manager = Manager()
         self._connections = self._manager.Queue()
+        self._root_dir = root_dir
         for i in range(multiprocessing.cpu_count()):
             p = Process(target=self.process_init)
             p.start()
@@ -24,7 +25,7 @@ class ConnectionPool:
         try:
             while True:
                 (connection, address) = self._connections.get()
-                thread_pool.apply_async(handle_request, (connection, address, logger), callback=None)
+                thread_pool.apply_async(handle_request, (connection, address, logger, self._root_dir), callback=None)
         except KeyboardInterrupt:
             thread_pool.close()
             thread_pool.join()

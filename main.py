@@ -7,13 +7,14 @@ logging.basicConfig(level=logging.DEBUG)
 
 HOST = 'localhost'
 PORT = 3000
+ROOT_DIR = '/Users/farcoad/Desktop'
 
 
 def init():
     server = Server(HOST, PORT)
 
     try:
-        ConnectionPool(server)
+        ConnectionPool(server, ROOT_DIR)
     except KeyboardInterrupt:
         logging.info("Shutting down")
 

@@ -14,7 +14,7 @@ def set_raw_code_status(method, code):
 
 
 class Response:
-    def __init__(self, protocol, method, status, content_type=None, body=None):
+    def __init__(self, protocol, method, status, content_type=None, content_length=0):
         self.Protocol = protocol
         self.Status = status
         self.ReqMethod = method
@@ -28,11 +28,10 @@ class Response:
 
         if content_type:
             self.ContentType = content_type
-            self.Body = body
-            self.ContentLength = len(self.Body)
+            self.ContentLength = content_length
 
     def __str__(self):
-        if not self.Body:
+        if not self.ContentLength:
             return 'Status: {0}\n' \
                    'Date: {1}\n' \
                    'Connection: {2}\n' \
@@ -82,5 +81,3 @@ class Response:
                         )
         return raw_headers.encode()
 
-    def get_raw_body(self):
-        return b"\r\n" + self.Body.encode()
