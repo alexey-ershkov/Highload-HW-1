@@ -1,8 +1,5 @@
-# Highload-HW-1
-Highload server for Techpark BMSTU course 3rd semester
-
-# Task
-
+Web server test suite
+=====================
 
 Implement a Web server in the programming language of your choice. Libraries for helping manage TCP socket connections *may* be used (libevent allowed). Libraries that implement any part of HTTP or multiprocessing model *must not* be used. Languages and platforms implementing hidden multithreading (Go, Node.js) are not allowed.
 
@@ -60,13 +57,10 @@ docker run -p 80:80 -v /etc/httpd.conf:/etc/httpd.conf:ro -v /var/www/html:/var/
 * Perfomance must be comparable with nginx (same order of magnitude)
 * No errors allowed
 
-# All test passed:
+## Resources ##
 
-![Functional tests](./media/tests.png)
-
-![All CPU Max Workers](./media/Full%20CPU.png)
-
-![Nginx](./media/nginx.png)
-
-
+* http://www.w3.org/Protocols/rfc2616/rfc2616.html
+* http://www.kegel.com/c10k.html
+* http://www.aosabook.org/en/nginx.html
+* http://www.slideshare.net/joshzhu/nginx-internals
 
