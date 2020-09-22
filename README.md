@@ -62,10 +62,13 @@ docker run -p 80:80 -v /etc/httpd.conf:/etc/httpd.conf:ro -v /var/www/html:/var/
 
 # All test passed:
 
+### Functional tests
 ![Functional tests](./media/tests.png)
 
+### All CPU and Max Workers
 ![All CPU Max Workers](./media/Full%20CPU.png)
 
+### Nginx (Config: ./nginx/nginx.conf)
 ![Nginx](./media/nginx.png)
 
 
