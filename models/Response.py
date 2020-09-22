@@ -54,8 +54,8 @@ class Response:
             raw_headers = '{0} {1}\r\n' \
                           'Server: {4}\r\n' \
                           'Date: {3}\r\n' \
-                          'Connection: {2}\r\n' \
-                          'Content-Length: {5}\r\n\r\n' \
+                          'Content-Length: {5}\r\n' \
+                          'Connection: {2}\r\n\r\n' \
                 .format(self.Protocol,
                         set_raw_code_status(self.ReqMethod, self.Status),
                         self.Connection,
@@ -67,9 +67,9 @@ class Response:
             raw_headers = '{0} {1}\r\n' \
                           'Server: {4}\r\n' \
                           'Date: {3}\r\n' \
-                          'Connection: {2}\r\n' \
                           'Content-Type: {5}\r\n' \
-                          'Content-Length: {6}\r\n\r\n' \
+                          'Content-Length: {6}\r\n' \
+                          'Connection: {2}\r\n\r\n' \
                 .format(self.Protocol,
                         set_raw_code_status(self.ReqMethod, self.Status),
                         self.Connection,

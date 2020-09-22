@@ -165,8 +165,10 @@ class HttpServer(unittest.TestCase):
         s.connect((self.host, self.port))
         s.send("HEAD /httptest/dir2/page.html HTTP/1.0\r\n\r\n")
         data = ""
-        buf = s.recv(1024)
-        data += buf
+        while 1:
+            buf = s.recv(1024)
+            if not buf: break
+            data += buf
         s.close()
 
         self.assertTrue(data.find("\r\n\r\n") > 0, "no empty line with CRLF found")

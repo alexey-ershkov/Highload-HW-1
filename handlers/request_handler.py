@@ -32,6 +32,7 @@ def handle_request(connection: socket.socket, address, logger, root_dir):
             resp_code = 404
     if path.find('../') != -1:
         resp_code = 403
+    resp: models.Response
     if resp_code == 200 and req.Method in methods:
         size = os.path.getsize(path)
         resp = models.Response(req.Protocol, req.Method, resp_code, mimetypes.guess_type(path)[0], size)
@@ -40,11 +41,13 @@ def handle_request(connection: socket.socket, address, logger, root_dir):
 
     logger.debug(resp_code)
 
-    connection.send(resp.get_raw_headers())
+    connection.sendall(resp.get_raw_headers())
     if req.Method == 'GET' and resp_code == 200:
         file = open(path, 'rb')
 
         connection.sendfile(file, 0)
+        file.close()
+        connection.shutdown(socket.SHUT_RDWR)
 
     connection.close()
 

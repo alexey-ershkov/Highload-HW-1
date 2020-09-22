@@ -28,12 +28,9 @@ class ConnectionPool:
             thread_pool = ThreadPool()
         try:
             while True:
-                try:
-                    (connection, address) = self._connections.get()
-                    thread_pool.apply_async(handle_request, (connection, address, logger, self._root_dir),
-                                            callback=None)
-                except:
-                    pass
+                (connection, address) = self._connections.get()
+                thread_pool.apply_async(handle_request, (connection, address, logger, self._root_dir),
+                                        callback=None)
         except KeyboardInterrupt:
             thread_pool.close()
             thread_pool.join()
