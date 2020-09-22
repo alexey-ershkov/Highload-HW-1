@@ -49,6 +49,6 @@ def handle_request(connection: socket.socket, address, logger, root_dir):
         file.close()
         connection.shutdown(socket.SHUT_RDWR)
 
-    connection.close()
+    connection.shutdown(socket.SHUT_RDWR)
 
     logger.debug("Connection closed")
