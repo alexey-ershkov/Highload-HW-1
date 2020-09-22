@@ -1,9 +1,9 @@
 import logging
-import multiprocessing
 import os
 from multiprocessing import Manager, Process
 from multiprocessing.pool import ThreadPool
 
+import config
 from handlers import handle_request
 
 
@@ -12,7 +12,7 @@ class ConnectionPool:
         self._manager = Manager()
         self._connections = self._manager.Queue()
         self._root_dir = root_dir
-        for i in range(multiprocessing.cpu_count()):
+        for i in range(config.CPU_NUM):
             p = Process(target=self.process_init)
             p.start()
             logging.debug("Process with pid {}".format(p.pid))
@@ -21,7 +21,10 @@ class ConnectionPool:
 
     def process_init(self):
         logger = logging.getLogger("process-{}".format(os.getpid()))
-        thread_pool = ThreadPool()
+        if config.WORKER_NUM != 0:
+            thread_pool = ThreadPool(config.WORKER_NUM)
+        else:
+            thread_pool = ThreadPool()
         try:
             while True:
                 try:
