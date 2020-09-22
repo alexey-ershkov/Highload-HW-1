@@ -20,11 +20,7 @@ class Response:
         self.ReqMethod = method
         self.Server = 'alersh'
         self.Date = format_date_time(mktime(datetime.datetime.now().timetuple()))
-
-        if protocol == 'HTTP/1.1':
-            self.Connection = 'keep-alive'
-        else:
-            self.Connection = 'close'
+        self.Connection = 'close'
 
         self.ContentType = content_type
         self.ContentLength = content_length
@@ -56,10 +52,10 @@ class Response:
     def get_raw_headers(self):
         if not self.ContentType:
             raw_headers = '{0} {1}\r\n' \
-                          'Connection: {2}\r\n' \
-                          'Date: {3}\r\n' \
                           'Server: {4}\r\n' \
-                          'Content-Length: {5}\r\n' \
+                          'Date: {3}\r\n' \
+                          'Connection: {2}\r\n' \
+                          'Content-Length: {5}\r\n\r\n' \
                 .format(self.Protocol,
                         set_raw_code_status(self.ReqMethod, self.Status),
                         self.Connection,
@@ -69,11 +65,11 @@ class Response:
                         )
         else:
             raw_headers = '{0} {1}\r\n' \
-                          'Connection: {2}\r\n' \
-                          'Date: {3}\r\n' \
                           'Server: {4}\r\n' \
+                          'Date: {3}\r\n' \
+                          'Connection: {2}\r\n' \
                           'Content-Type: {5}\r\n' \
-                          'Content-Length: {6}\r\n' \
+                          'Content-Length: {6}\r\n\r\n' \
                 .format(self.Protocol,
                         set_raw_code_status(self.ReqMethod, self.Status),
                         self.Connection,

@@ -9,15 +9,15 @@ methods = ['GET', 'HEAD']
 
 
 def handle_request(connection: socket.socket, address, logger, root_dir):
-    logger.debug("Connected %r at %r", connection, address)
+    logger.debug("Connected at %r", address)
     try:
         req = models.Request(connection.recv(1024))
     except IndexError:
+        connection.send(b'Non HTTP protocol used')
         connection.close()
         logger.debug("Connection closed")
         return
 
-    print(req)
     is_dir = False
     path = root_dir + urllib.parse.unquote(urllib.parse.urlparse(req.URL).path)
     if path[-1] == '/':
@@ -38,10 +38,7 @@ def handle_request(connection: socket.socket, address, logger, root_dir):
     else:
         resp = models.Response(req.Protocol, req.Method, resp_code)
 
-    print(resp)
-    print(path)
-
-    connection.send(resp.get_raw_headers() + b'\r\n')
+    connection.send(resp.get_raw_headers())
     if req.Method == 'GET' and resp_code == 200:
         file = open(path, 'rb')
 

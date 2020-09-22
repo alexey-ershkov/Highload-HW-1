@@ -1,21 +1,17 @@
 import logging
 
+import config
 from ConnectionPool import ConnectionPool
 from Server import Server
 
-logging.basicConfig(level=logging.DEBUG)
-
-# TODO Config file
-HOST = 'localhost'
-PORT = 3000
-ROOT_DIR = '/Users/farcoad/Desktop/http-test-suite'
+logging.basicConfig(level=config.LOG_LEVEL)
 
 
 def init():
-    server = Server(HOST, PORT)
+    server = Server(config.HOST, config.PORT)
 
     try:
-        ConnectionPool(server, ROOT_DIR)
+        ConnectionPool(server, config.ROOT_DIR)
     except KeyboardInterrupt:
         logging.info("Shutting down")
 
