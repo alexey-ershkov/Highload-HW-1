@@ -12,7 +12,7 @@ class ConnectionPool:
         self._manager = Manager()
         self._connections = self._manager.Queue()
         self._root_dir = root_dir
-        for i in range(config.CPU_NUM):
+        for i in range(config.CPU):
             p = Process(target=self.process_init)
             p.start()
             logging.debug("Process with pid {}".format(p.pid))
@@ -21,8 +21,9 @@ class ConnectionPool:
 
     def process_init(self):
         logger = logging.getLogger("process-{}".format(os.getpid()))
-        if config.WORKER_NUM != 0:
-            thread_pool = ThreadPool(config.WORKER_NUM)
+        thread_poll: ThreadPool
+        if config.WORKERS != 0:
+            thread_pool = ThreadPool(config.WORKERS)
         else:
             thread_pool = ThreadPool()
         try:
