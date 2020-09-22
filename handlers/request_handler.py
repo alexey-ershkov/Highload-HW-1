@@ -38,6 +38,8 @@ def handle_request(connection: socket.socket, address, logger, root_dir):
     else:
         resp = models.Response(req.Protocol, req.Method, resp_code)
 
+    logger.debug(resp_code)
+
     connection.send(resp.get_raw_headers())
     if req.Method == 'GET' and resp_code == 200:
         file = open(path, 'rb')
