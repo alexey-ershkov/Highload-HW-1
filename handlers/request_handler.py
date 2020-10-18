@@ -18,37 +18,18 @@ def handle_request(connection: socket.socket, address, logger, root_dir):
         logger.debug("Connection closed")
         return
 
-    is_dir = False
-    path = root_dir + urllib.parse.unquote(urllib.parse.urlparse(req.URL).path)
-    if path[-1] == '/':
-        is_dir = True
-        path += 'index.html'
-
     resp_code = 200
-    if not os.path.exists(path):
-        if is_dir:
-            resp_code = 403
-        else:
-            resp_code = 404
-    if path.find('../') != -1:
-        resp_code = 403
-    resp: models.Response
-    if resp_code == 200 and req.Method in methods:
-        size = os.path.getsize(path)
-        resp = models.Response(req.Protocol, req.Method, resp_code, mimetypes.guess_type(path)[0], size)
-    else:
-        resp = models.Response(req.Protocol, req.Method, resp_code)
+    message = "Thread Pool Server\n"
+    resp = models.Response(req.Protocol, req.Method, resp_code, 'text/html', len(message))
 
     logger.debug(resp_code)
 
     connection.sendall(resp.get_raw_headers())
     if req.Method == 'GET' and resp_code == 200:
-        file = open(path, 'rb')
-
-        connection.sendfile(file, 0)
-        file.close()
+        connection.send(message.encode('utf-8'))
         connection.shutdown(socket.SHUT_RDWR)
 
     connection.shutdown(socket.SHUT_RDWR)
 
     logger.debug("Connection closed")
+
